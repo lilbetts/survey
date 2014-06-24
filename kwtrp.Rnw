@@ -1,0 +1,184 @@
+\documentclass[slidestop,compress,14pt,xcolor=dvipsnames]{beamer}
+\usepackage{lmodern}
+\usepackage{graphicx} %package for attaching images
+%\usetheme{Madrid}
+\usetheme{Ilmenau}
+ %verbatim
+\mode<presentation>
+\setbeamercolor{section in head}{parent=palette quaternary}
+
+\makeatletter
+\setbeamertemplate{}
+{%
+\vskip-9ex%
+\begin{beamercolorbox}{}
+\hfill\usebeamercolor[fg]{navigation symbols dimmed}%
+    \insertslidenavigationsymbol
+    \insertframenavigationsymbol
+    \insertsubsectionnavigationsymbol
+    \insertsectionnavigationsymbol
+    \insertdocnavigationsymbol
+    \insertbackfindforwardnavigationsymbol
+  \end{beamercolorbox}%    
+  \begin{beamercolorbox}[ht=2ex,dp=3ex]{section in head}%
+    \insertnavigation{\paperwidth}
+  \end{beamercolorbox}%
+}%
+\makeatother
+
+
+\institute{statistics department}
+
+\begin{document}
+\section{TITLE}
+\begin{frame}{STATISTICS E-LEARNING }\vfill
+Beatrice Masha\newline
+DATE: 10/07/2014\vfill
+\textbf{SUPERVISORS}\newline
+Dr. Greg Fegan\newline
+Dr. Sam Kinyanjui
+
+\end{frame}
+\section{INTRODUCTION}
+\begin{frame}
+\begin{itemize}
+\item E-learning is the use of electronic technology to deliver
+education and training applications,anytime and anywhere
+
+ \item Its an inclusive term that describes educational technology that electronically or technologically supports learning and teaching
+\end{itemize}
+\end{frame}
+
+\section{CONTENTS}
+\subsection{BACKGROUND}
+\begin{frame}{BACKGROUND}
+\begin{itemize}
+  \item There has been an increase in the number of young researchers entering the programme.
+  \item Demand for basic statistical techniques has outsripped the capacity of staff to provide support for this.
+  \item There has been an explosion of freely available,video based,internet delivered courses that could help close this gap.
+\end{itemize}
+\end{frame}
+\subsection{OBJECTIVE}
+\begin{frame}{OBJECTIVE}
+
+To develop a statistical course in an in-house virtual learning environment (VLE) using pre-existing materials from publicly available massive open online courses (MOOCs)
+
+\end{frame}
+
+\subsection{WORKPLAN}
+\begin{frame}{WORKPLAN}
+\begin{itemize}
+  \item To quantify the likely demand for computer-mediated training.
+  \item Survey, identify and recommend possible courses and develop quizzes that can help meet the statistical learning demands for junior scientists.
+  \item Assist with the development of the KWTRP VLE to offer stats classes.
+\end{itemize}
+\end{frame}
+
+
+
+<<echo=FALSE,results='hide', warning=FALSE>>=
+#setwd('H:/kwtrp/')
+
+
+library(plyr)
+library(foreign)
+library(ggplot2)
+library(reshape2)
+
+
+survey<-read.csv("out.csv", header=T)
+names(survey)<-c("id","role","orole","edulvl","proflvl","muse",
+                 "mexper","lpref","on1","on2","on3","on4",
+                 "on5","on6","f2f1","f2f2","f2f3",  
+                 "f2f4","stata","R","spss","SAS","osft",
+                 "none","osft1","psft","opsft","tp1",                
+                 "tp2","tp3","tp4","tp5","tp6","tp7","tp8","tp9",                
+                 "tp10","otp","idea","complete")
+@
+
+\section{SURVEY}
+\subsection{DATA STRUCTURE}
+\begin{frame}
+\begin{itemize}
+  \item survey was conducted using an internal system known as REDCap.
+  \item sample size = 60
+  \item the distribution of the respondents is as shown below  
+\end{itemize}
+\begin{figure}
+<<echo=FALSE,fig.height=3.2,fig.width=7.2>>=
+ggplot(survey[!is.na(survey$role),], aes(x = factor(role))) + geom_bar(stat = "bin",fill="darkblue")+ scale_x_discrete(labels=c("INT","RA/AS","R.PHD","PD.SC","SEN.INV","STATS","OTHER"))
+
+@
+
+\end{figure}
+\end{frame}
+
+\subsection{PROFICIENCY LEVELS}
+\begin{frame}[fragile]{\textbf{GROUP1}}
+\begin{figure}
+<<echo=FALSE,fig.height=4.2,fig.width=7.2>>=
+survey$group[survey$role==1] <- "interns" 
+survey$group[survey$role!=1] <- "noninterns"
+tb1.1<-table(survey$proflvl,survey$group)
+p1.1<-ggplot(survey[!is.na(survey$group),],aes(proflvl, fill=group)) + geom_bar(position="dodge", binwidth=0.5)
+p1.1+ scale_x_discrete(breaks=1:4,labels=c("veryproficient","proficient","moderate","novice" )) + ggtitle("DISTRIBUTION OF  LEVELS OF STATISTICAL ANALYSIS") + xlab("Proficiency levels")
+
+@
+
+\end{figure}
+
+\end{frame}
+
+\begin{frame}[fragile]{\textbf{GROUP 2}}
+\begin{figure}
+<<echo=FALSE,fig.height=4.2,fig.width=7.2>>=
+survey$edu[survey$edulvl==1]<-"bachelors"
+survey$edu[survey$edulvl==2]<-"masters"
+survey$edu[survey$edulvl==3]<-"phd"
+survey$edu[survey$edulvl==4]<-"bachelors"
+
+p1.2<-ggplot(survey[!is.na(survey$edu),],aes(proflvl, fill=edu)) + geom_bar(position="dodge", binwidth=0.5)
+p1.2+ scale_x_discrete(breaks=1:4,labels=c("veryproficient","proficient","moderate","novice" ))+ggtitle("DISTRIBUTION OF LEVELS OF STATISTICAL ANALYSIS") + xlab("Proficiency levels")
+@
+
+\end{figure}
+\end{frame}
+
+\subsection{PROJECT RATING}
+\begin{frame}[fragile]{\textbf{project rating}}
+\begin{figure}
+<<echo=FALSE,fig.height=4.2,fig.width=7.2>>=
+tb4<-table(survey$idea,survey$group)
+p4.1<-ggplot(survey[!is.na(survey$group),],aes(idea,fill=group))+ geom_bar(position="dodge",binwidth=0.5)
+p4.1+ scale_x_discrete(breaks=1:3,labels=c("veryuseful","useful","not useful")) + ggtitle("PROJECT RATING") + xlab("project")
+
+@
+\end{figure}
+\end{frame}
+
+\section{CONCLUSION}
+\begin{frame}
+\begin{itemize}
+  \item There is a demand for a statistics computer mediated training within the programme.
+  \item E-learning encompasses different study habits and can be done anytime hence convinient for everyone.
+  \item One can go through the materials over and over.
+  \item E-learning requires a great deal of self drive and motivation.
+  \item A blended form of learning: The Convergence of Online and Face-To-Face Education would be more preferable for the programme.
+\end{itemize}
+\end{frame}
+\section{ACKNOWLEDGEMENT}
+\begin{frame}
+\begin{enumerate}
+  \item Dr. Greg Fegan\vfill
+  \item Dr. Sam Kinyanjui\vfill
+  \item Amos Thairu\vfill
+  \item Kennedy Mwai
+\end{enumerate}
+\textbf{2014 INTERNS}\newline
+\textbf{SURVEY RESPONDENTS}\newline
+\textbf{ICT DEPARTMENT}\newline
+\textbf{TRAINING DEPARTMENT}\newline
+\textbf{KEMRI WELLCOME-TRUST}
+\end{frame}
+
+\end{document}

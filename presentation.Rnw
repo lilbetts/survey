@@ -30,48 +30,93 @@
 \institute{statistics department}
 
 \begin{document}
-\section{TITLE}
-\begin{frame}{BEATRICE MASHA}
+\section{title}
+\begin{frame}{Beatrice  Masha}
 \vspace*{\fill}
 \begin{center}
-E-LEARNING PROJECT
+  To explore the possibility of using e-learning as a tool for statistics training in KWTRP
 \end{center}
 \vspace*{\fill}
 \end{frame}
-
-\section{CONTENTS}
-\subsection{BACKGROUND}
-\begin{frame}{BACKGROUND}
-
-As the number of young researchers entering into the programme has increased over time, the demand for training in basic statistical techniques has outstripped the capacity of staff to provide sufficient support for this. Recently there has been an explosion of freely available, video based, internet delivered courses that could help close this gap.
-
-\end{frame}
-\subsection{OBJECTIVE}
-\begin{frame}{OBJECTIVE}
-
-To develop a statistical course in an in-house virtual learning environment (VLE) using pre-existing materials from publicly available massive open online courses (MOOCs)
-
-\end{frame}
-
-\subsection{WORKPLAN}
-\begin{frame}{WORKPLAN}
+\section{Introduction}
+\subsection{Justification}
+\begin{frame}
 \begin{itemize}
-  \item To quantify the likely demand for computer-mediated training.
-  \item Survey, identify and recommend possible courses and develop quizzes that can help meet the statistical learning demands for junior scientists.
-  \item Assist with the development of the KWTRP VLE to offer stats classes.
+  \item A proficient level of statistical  knowledge is a basic requirement for all scientific researchers .
+  \item large number of potential trainees at different levels of skills versus a very small number  of busy trainers, rendering it difficult to offer a generic course.
+  \item E-learning offers a potential tool for teaching statistics in this setting.
 \end{itemize}
 \end{frame}
 
+\subsection{Aim}
+\begin{frame}{Aim of the project}
+This project is aimed at utilizing the freely available, video based, internet delivered courses to develop a statistical course in an in-house virtual learning environment (VLE).
+\end{frame}
+
+\subsection{Workplan}
+\begin{frame}
+\begin{itemize}
+  \item Carry out  a review of e-learning and the available statistical e-learning platforms.
+  \item Carry out a survey of  experiences and perceptions of KWTRP staff on the use of e-learning.
+\end{itemize}
+\end{frame}
+
+\section{Review}
+\subsection{Defination}
+\begin{frame}
+E-learning is an inclusive term that describes educational technology that electronically or technologically supports learning and teaching.
+\end{frame}
+
+\subsection{Development}
+\begin{frame}{Recent development}
+\begin{itemize}
+  \item MOOCs are the recent development in e-learning
+  \item Approximately,there are 40 MOOC Providers.
+  \item The table below shows the top 3 MOOC providers. 
+\end{itemize}
+\begin{table}
+\begin{tabular}{|c|c|c|} 
+\hline
+\textbf{providers}& \textbf{Founders} &\textbf{users (approx)}\\ 
+\hline
+Edx & MIT, Harvad university &2.5M \\
+\hline
+Cousera&  Stanford university &7.1M \\
+\hline
+Udacity & stanford university &1.6M \\ 
+\hline
+\end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}{Summary of the review}
+\begin{itemize}
+  \item There is a large array of pontential e-learning materials covering a wide range of skills.
+  \item E-learning encompasses different study habits and can be done anytime and anywhere.
+  \item One can go through the materials over and over.
+  \item E-learning requires a great deal of self drive and motivation.
+  \item May be customised ie adopt a blended form of learning
+\end{itemize}
+\end{frame}
+
+\section{Survey}
+\subsection{Method}
+\begin{frame}
+ \begin{itemize}
+  \item A short survey was conducted through an internal system known as REDcap.
+  \item survey url was sent to 300 people,60 respondend.
+  \item Distribution of respondents is as shown on the graph below.
+\end{itemize}
+\end{frame}
+\begin{frame}{Respondents}
+\begin{figure}
+<<echo=FALSE,results='hide',fig.height=4.2,fig.width=7.2, warning=FALSE>>=
+#setwd('H:/kwtrp/survey')
 
 
-<<echo=FALSE,results='hide', warning=FALSE>>=
-#setwd('H:/kwtrp')
 
-
-library(plyr)
-library(foreign)
 library(ggplot2)
-library(reshape2)
+
 
 
 survey<-read.csv("out.csv", header=T)
@@ -82,84 +127,95 @@ names(survey)<-c("id","role","orole","edulvl","proflvl","muse",
                  "none","osft1","psft","opsft","tp1",                
                  "tp2","tp3","tp4","tp5","tp6","tp7","tp8","tp9",                
                  "tp10","otp","idea","complete")
-@
 
-\section{SURVEY}
-\subsection{PROFICIENCY LEVELS}
-\begin{frame}[fragile]{\textbf{GROUP1}}
+
+
+ggplot(survey[!is.na(survey$role),], aes(x = factor(role))) + geom_bar(stat = "bin",fill="darkblue")+ scale_x_discrete(labels=c("INT","RA/AS","R.PHD","PD.SC","SEN.INV","STATS","OTHER"))
+
+@
+\end{figure}
+\end{frame}
+\subsection{survey summary}
+\begin{frame}
+\begin{itemize}
+  \item prior use of any e-learning platform
+  \item e-learning experience
+  \item most preferred statistical software
+  \item levels of statistical analysis
+  \item perceptions towards e-learning
+\end{itemize}
+\end{frame}
+
+\subsection{Results}
+\begin{frame}
+\begin{itemize}
+  \item 40\% of the respondenst had used an mooc before.
+  \item Approximately 71\% of those that had undertaken an mooc before termed their experiences with the as veryuseful while  the remaining rated their experience as somewhat useful.
+  \item Aprroximately 72\% use Stata and out of these,52\% have Stata as there primary software.  
+\end{itemize}
+\end{frame}
+
+\begin{frame}{what is your level of statistical analysis?}
 \begin{figure}
 <<echo=FALSE,fig.height=4.2,fig.width=7.2>>=
 survey$group[survey$role==1] <- "interns" 
 survey$group[survey$role!=1] <- "noninterns"
-tb1.1<-table(survey$proflvl,survey$group)
-p1.1<-ggplot(survey[!is.na(survey$group),],aes(proflvl, fill=group)) + geom_bar(position="dodge", binwidth=0.5)
-p1.1+ scale_x_discrete(breaks=1:4,labels=c("veryproficient","proficient","moderate","novice" )) + ggtitle("DISTRIBUTION OF  LEVELS OF STATISTICAL ANALYSIS") + xlab("Proficiency levels")
-
+table1 <- table(survey$group, survey$proflvl)
+barplot(table1,xlab="PROFICIENCY LEVELS",names.arg=c("very proficient","proficient","moderate","novice"),
+        col=c("purple","blue"), legend = rownames(table1),args.legend=list(x="topright"), beside=TRUE)
 @
 
 \end{figure}
 
 \end{frame}
 
-\begin{frame}[fragile]{\textbf{GROUP 2}}
+
+\begin{frame}{How would you rate the idea of developing an online statistical course within the programme?}
 \begin{figure}
-<<echo=FALSE,fig.height=4.2,fig.width=7.2>>=
-survey$edu[survey$edulvl==1]<-"bachelors"
-survey$edu[survey$edulvl==2]<-"masters"
-survey$edu[survey$edulvl==3]<-"phd"
-survey$edu[survey$edulvl==4]<-"bachelors"
-
-p1.2<-ggplot(survey[!is.na(survey$edu),],aes(proflvl, fill=edu)) + geom_bar(position="dodge", binwidth=0.5)
-p1.2+ scale_x_discrete(breaks=1:4,labels=c("veryproficient","proficient","moderate","novice" ))+ggtitle("DISTRIBUTION OF LEVELS OF STATISTICAL ANALYSIS") + xlab("Proficiency levels")
-@
-
-\end{figure}
-\end{frame}
-
-\subsection{PROJECT RATING}
-\begin{frame}[fragile]{\textbf{GROUP1}}
-\begin{figure}
-<<echo=FALSE,fig.height=4.2,fig.width=7.2>>=
-tb4<-table(survey$idea,survey$group)
-p4.1<-ggplot(survey[!is.na(survey$group),],aes(idea,fill=group))+ geom_bar(position="dodge",binwidth=0.5)
-p4.1+ scale_x_discrete(breaks=1:3,labels=c("veryuseful","useful","not useful")) + ggtitle("PROJECT RATING") + xlab("project")
+<<echo=FALSE,fig.height=3.2,fig.width=7.2>>=
+table3 <- table(survey$group, survey$idea)
+barplot(table3, xlab="RATING",names.arg=c("very useful","useful","not useful"), col=c("blue","purple"), 
+        legend = rownames(table3),args.legend=list(x="topright"), beside=TRUE)
 
 @
 \end{figure}
 \end{frame}
 
-\begin{frame}[fragile]{\textbf{GROUP2}}
-\begin{figure}
-<<echo=FALSE,fig.height=4.2,fig.width= 7.2>>=
-survey$stats[survey$role==7]<-"statisticians"
-survey$stats[survey$role!=7]<-"nonstatisticians"
-survey$stats[survey$role==1]<-"interns"
-
-p4.2<-ggplot(survey[!is.na(survey$stats),],aes(idea,fill=stats))+ geom_bar(position="dodge",binwidth=0.5)
-p4.2 + scale_x_discrete(breaks=1:3,labels=c("veryuseful","useful","notuseful")) + ggtitle("PROJECT RATING") + xlab("project")
-@
-\end{figure}
-\end{frame}
-\section{CONCLUSION}
+\section{Conclusion}
 \begin{frame}
-The imminent advantages of the project are:
 \begin{itemize}
-  \item Learning can be done anytime and anywhere
-  \item Ability to go through the  materials over and over.
+ \item E-learning can be used as a tool for statistcs training within the programme.
+ \item Course materials were selected from the Edx platform
+ \item The course materials can be accessed directly from the local server
+  
 \end{itemize}
-The course will be veryhelpful especially to the junior scientists within the programme in equipping them with statistical knowledge. Nevertheless ,e-learning requires a great deal of self drive and motivation.so its up to an individual to adapt effective study habits for effective learning.
 \end{frame}
-\section{ACKNOWLEDGEMENT}
-\begin{frame}
-\textbf{SUPERVISORS}
-\begin{enumerate}
-  \item Dr. Greg Fegan
-  \item Dr. Sam Kinyanjui\vfill
-\end{enumerate}
-Amos Thairu-R.O\newline 
-\textbf{SURVEY RESPONDENTS}\newline
-\textbf{ICT DEPARTMENT}\newline
-\textbf{TRAINING DEPARTMENT}\newline
 
+\section{Gained}
+\begin{frame}{What I have learnt}
+\begin{itemize}
+  \item observe application of statistics in health research 
+  \item How to build and  conduct surveys using  Redcap  and survey monkey
+  \item Data analysis, management and programming in R,Stata, and RStudio
+  \item Report generation and slide preparation in latex 
+\end{itemize}
 \end{frame}
+\begin{frame}
+\includegraphics{code.png}
+\end{frame}
+\section{Acknowledgement}
+\begin{frame}
+\begin{enumerate}
+  \item Dr. Greg Fegan\vfill
+  \item Dr. Sam Kinyanjui\vfill
+  \item Amos Thairu\vfill
+  \item Kennedy Mwai
+\end{enumerate}
+\textbf{2014 interns}\newline
+\textbf{Survey respondents}\newline
+\textbf{ICT department}\newline
+\textbf{Training department}\newline
+\textbf{KEMRI WELLCOME-TRUST}
+\end{frame}
+ 
 \end{document}
